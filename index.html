@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yeeha App</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/animations.css">
+</head>
+<body>
+    <!-- 主内容区域 -->
+    <div class="app-container">
+        <!-- 页面内容 -->
+        <div class="page-content" id="pageContent">
+            <!-- 首页内容 -->
+            <div class="tab-content active" id="home">
+                <div class="content-header">
+                    <h1>首页</h1>
+                    <p>欢迎来到Yeeha</p>
+                </div>
+                <div class="content-body">
+                    <div class="welcome-card">
+                        <h2>🎉 欢迎回来！</h2>
+                        <p>今天也要开开心心的哦～</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 发现页内容 -->
+            <div class="tab-content" id="discover">
+                <div class="content-header">
+                    <h1>发现</h1>
+                    <p>探索更多精彩内容</p>
+                </div>
+                <div class="content-body">
+                    <div class="discover-grid">
+                        <div class="discover-item">
+                            <div class="item-icon">🎮</div>
+                            <span>游戏</span>
+                        </div>
+                        <div class="discover-item">
+                            <div class="item-icon">🎵</div>
+                            <span>音乐</span>
+                        </div>
+                        <div class="discover-item">
+                            <div class="item-icon">📺</div>
+                            <span>视频</span>
+                        </div>
+                        <div class="discover-item">
+                            <div class="item-icon">📚</div>
+                            <span>学习</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 消息页内容 -->
+            <div class="tab-content" id="message">
+                <div class="content-header">
+                    <h1>消息</h1>
+                    <p>查看最新消息</p>
+                </div>
+                <div class="content-body">
+                    <div class="message-list">
+                        <div class="message-item">
+                            <div class="avatar">👤</div>
+                            <div class="message-content">
+                                <h3>系统通知</h3>
+                                <p>欢迎使用Yeeha App！</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 我的页面内容 -->
+            <div class="tab-content" id="profile">
+                <div class="content-header">
+                    <h1>我的</h1>
+                    <p>个人中心</p>
+                </div>
+                <div class="content-body">
+                    <div class="profile-card">
+                        <div class="avatar-large">👤</div>
+                        <h2>用户名</h2>
+                        <p>ID: 12345678</p>
+                    </div>
+                    <div class="menu-list">
+                        <div class="menu-item">
+                            <span>设置</span>
+                            <span>⚙️</span>
+                        </div>
+                        <div class="menu-item">
+                            <span>帮助</span>
+                            <span>❓</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 钱包页面内容 -->
+            <div class="tab-content" id="wallet">
+                <div class="content-header">
+                    <h1>钱包</h1>
+                    <p>管理您的资产</p>
+                </div>
+                <div class="content-body">
+                    <div class="balance-card">
+                        <h2>账户余额</h2>
+                        <div class="balance-amount">¥ 1,234.56</div>
+                    </div>
+                    <div class="wallet-actions">
+                        <button class="action-btn">充值</button>
+                        <button class="action-btn">提现</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 底部导航栏 -->
+        <nav class="bottom-nav">
+            <div class="nav-item active" data-tab="home">
+                <div class="nav-icon">🏠</div>
+                <span>首页</span>
+            </div>
+            <div class="nav-item" data-tab="discover">
+                <div class="nav-icon">🔍</div>
+                <span>发现</span>
+            </div>
+            <div class="nav-item" data-tab="message">
+                <div class="nav-icon">💬</div>
+                <span>消息</span>
+            </div>
+            <div class="nav-item" data-tab="profile">
+                <div class="nav-icon">👤</div>
+                <span>我的</span>
+            </div>
+            <div class="nav-item" data-tab="wallet">
+                <div class="nav-icon">💰</div>
+                <span>钱包</span>
+            </div>
+        </nav>
+
+        <!-- 红包活动入口 -->
+        <div class="redpacket-entry" id="redpacketEntry">
+            <div class="redpacket-icon" id="redpacketIcon">🧧</div>
+        </div>
+
+        <!-- 红包活动弹窗 -->
+        <div class="redpacket-modal" id="redpacketModal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2>🎁 红包活动</h2>
+                    <button class="close-btn" id="closeModal">×</button>
+                </div>
+                <div class="modal-body">
+                    <div class="activity-grid">
+                        <div class="activity-item" data-activity="friend">
+                            <div class="activity-icon">👥</div>
+                            <span>好友红包</span>
+                        </div>
+                        <div class="activity-item" data-activity="rain">
+                            <div class="activity-icon">🌧️</div>
+                            <span>定时红包雨</span>
+                        </div>
+                        <div class="activity-item" data-activity="invite">
+                            <div class="activity-icon">📢</div>
+                            <span>邀请红包</span>
+                        </div>
+                        <div class="activity-item" data-activity="coins">
+                            <div class="activity-icon">🪙</div>
+                            <span>领金币</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/app.js"></script>
+</body>
+</html>

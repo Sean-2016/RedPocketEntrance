@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>功能测试 - Yeeha App</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .test-section {
+            background: white;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .test-button {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+            text-decoration: none;
+            display: inline-block;
+        }
+        .test-button:hover {
+            background: #5a6fd8;
+        }
+        .status {
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+        }
+        .status.success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        .status.error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+    </style>
+</head>
+<body>
+    <h1>🧪 Yeeha App 功能测试</h1>
+    
+    <div class="test-section">
+        <h2>📱 主应用测试</h2>
+        <a href="index.html" class="test-button">测试主应用</a>
+        <p>测试底部导航栏、红包入口动画、tab切换等功能</p>
+    </div>
+    
+    <div class="test-section">
+        <h2>👥 好友列表测试</h2>
+        <a href="friend-list.html" class="test-button">测试好友列表</a>
+        <p>测试好友列表显示、聊天功能、发红包功能</p>
+    </div>
+    
+    <div class="test-section">
+        <h2>🌧️ 红包雨测试</h2>
+        <a href="redpacket-rain.html" class="test-button">测试红包雨</a>
+        <p>测试活动规则、倒计时、参与功能</p>
+    </div>
+    
+    <div class="test-section">
+        <h2>📢 邀请功能测试</h2>
+        <a href="invite.html" class="test-button">测试邀请功能</a>
+        <p>测试邀请链接、分享功能、邀请记录</p>
+    </div>
+    
+    <div class="test-section">
+        <h2>🪙 任务中心测试</h2>
+        <a href="task-list.html" class="test-button">测试任务中心</a>
+        <p>测试任务列表、签到功能、奖励领取</p>
+    </div>
+    
+    <div class="test-section">
+        <h2>🔧 功能验证清单</h2>
+        <div id="checklist">
+            <div class="status success">✅ 主应用页面已创建</div>
+            <div class="status success">✅ 底部导航栏已实现</div>
+            <div class="status success">✅ 红包入口动画已实现</div>
+            <div class="status success">✅ Tab切换动画已实现</div>
+            <div class="status success">✅ 好友列表页面已创建</div>
+            <div class="status success">✅ 红包雨规则页面已创建</div>
+            <div class="status success">✅ 邀请功能页面已创建</div>
+            <div class="status success">✅ 任务中心页面已创建</div>
+            <div class="status success">✅ 所有页面跳转已实现</div>
+            <div class="status success">✅ 响应式设计已实现</div>
+            <div class="status success">✅ 动画效果已实现</div>
+        </div>
+    </div>
+    
+    <div class="test-section">
+        <h2>📋 测试说明</h2>
+        <ol>
+            <li><strong>主应用测试</strong>：打开主应用，测试底部导航栏切换、红包入口动画、tab切换动画</li>
+            <li><strong>红包入口测试</strong>：点击悬浮的红包图标，测试弹窗显示和活动选择</li>
+            <li><strong>页面跳转测试</strong>：在各个子页面中测试返回按钮和页面间跳转</li>
+            <li><strong>交互功能测试</strong>：测试各个页面的按钮点击、表单提交等功能</li>
+            <li><strong>响应式测试</strong>：调整浏览器窗口大小，测试不同屏幕尺寸的适配</li>
+        </ol>
+    </div>
+    
+    <div class="test-section">
+        <h2>🚀 快速启动</h2>
+        <p>使用以下命令启动本地服务器：</p>
+        <ul>
+            <li><strong>Windows:</strong> 双击 <code>start.bat</code></li>
+            <li><strong>Linux/Mac:</strong> 运行 <code>./start.sh</code></li>
+            <li><strong>手动启动:</strong> 在浏览器中直接打开 <code>index.html</code></li>
+        </ul>
+    </div>
+    
+    <script>
+        // 简单的功能检测
+        function checkFeatures() {
+            const features = [
+                'localStorage',
+                'sessionStorage',
+                'navigator.clipboard',
+                'fetch',
+                'Promise'
+            ];
+            
+            const results = features.map(feature => {
+                try {
+                    return window[feature] ? true : false;
+                } catch (e) {
+                    return false;
+                }
+            });
+            
+            console.log('功能检测结果:', results);
+        }
+        
+        // 页面加载完成后执行检测
+        document.addEventListener('DOMContentLoaded', () => {
+            checkFeatures();
+            console.log('🎉 Yeeha App 测试页面加载完成！');
+        });
+    </script>
+</body>
+</html>

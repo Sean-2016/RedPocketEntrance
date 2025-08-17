@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>红包雨规则 - Yeeha App</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/animations.css">
+    <style>
+        .rule-section {
+            margin-bottom: 25px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 15px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .rule-section h3 {
+            color: #667eea;
+            margin-bottom: 15px;
+            font-size: 18px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .rule-section p {
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 10px;
+        }
+        
+        .rule-section ul {
+            margin-left: 20px;
+            color: #666;
+        }
+        
+        .rule-section li {
+            margin-bottom: 8px;
+            line-height: 1.5;
+        }
+        
+        .time-info {
+            background: linear-gradient(135deg, #ff6b6b, #ee5a24);
+            color: white;
+            padding: 20px;
+            border-radius: 15px;
+            text-align: center;
+            margin-bottom: 25px;
+        }
+        
+        .time-info h2 {
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+        
+        .time-info p {
+            font-size: 16px;
+            opacity: 0.9;
+        }
+        
+        .countdown {
+            font-size: 32px;
+            font-weight: bold;
+            margin: 15px 0;
+        }
+        
+        .participate-btn {
+            display: block;
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            border-radius: 15px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 20px;
+        }
+        
+        .participate-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+        }
+        
+        .participate-btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+        
+        .back-btn {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            padding: 10px 20px;
+            background: rgba(255, 255, 255, 0.9);
+            border: none;
+            border-radius: 25px;
+            color: #333;
+            font-size: 16px;
+            cursor: pointer;
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+        }
+        
+        .back-btn:hover {
+            background: rgba(255, 255, 255, 1);
+            transform: translateY(-2px);
+        }
+        
+        .prize-list {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin-top: 15px;
+        }
+        
+        .prize-item {
+            background: white;
+            padding: 15px;
+            border-radius: 12px;
+            text-align: center;
+            border: 2px solid #e9ecef;
+        }
+        
+        .prize-item h4 {
+            color: #333;
+            margin-bottom: 8px;
+        }
+        
+        .prize-item p {
+            color: #ff6b6b;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <!-- 返回按钮 -->
+        <button class="back-btn" onclick="goBack()">← 返回</button>
+        
+        <!-- 页面内容 -->
+        <div class="page-content">
+            <div class="content-header">
+                <h1>🌧️ 红包雨活动</h1>
+                <p>了解活动规则，参与抢红包</p>
+            </div>
+            
+            <div class="content-body">
+                <!-- 活动时间信息 -->
+                <div class="time-info">
+                    <h2>⏰ 活动时间</h2>
+                    <p>每天 12:00、18:00、21:00 准时开始</p>
+                    <div class="countdown" id="countdown">距离下次开始: --:--:--</div>
+                    <p>每次持续 10 分钟</p>
+                </div>
+                
+                <!-- 活动规则 -->
+                <div class="rule-section">
+                    <h3>📋 活动规则</h3>
+                    <ul>
+                        <li>活动期间，红包会从屏幕上方随机掉落</li>
+                        <li>点击红包即可领取，先到先得</li>
+                        <li>每人每次活动最多可领取 5 个红包</li>
+                        <li>红包金额随机，最高可达 100 元</li>
+                        <li>领取的红包将直接存入您的钱包</li>
+                    </ul>
+                </div>
+                
+                <!-- 参与条件 -->
+                <div class="rule-section">
+                    <h3>✅ 参与条件</h3>
+                    <ul>
+                        <li>需要完成实名认证</li>
+                        <li>账户余额需大于 0 元</li>
+                        <li>无违规记录</li>
+                        <li>每日签到可获得额外红包机会</li>
+                    </ul>
+                </div>
+                
+                <!-- 奖励说明 -->
+                <div class="rule-section">
+                    <h3>🎁 奖励说明</h3>
+                    <div class="prize-list">
+                        <div class="prize-item">
+                            <h4>普通红包</h4>
+                            <p>1-10 元</p>
+                        </div>
+                        <div class="prize-item">
+                            <h4>幸运红包</h4>
+                            <p>10-50 元</p>
+                        </div>
+                        <div class="prize-item">
+                            <h4>超级红包</h4>
+                            <p>50-100 元</p>
+                        </div>
+                        <div class="prize-item">
+                            <h4>神秘红包</h4>
+                            <p>随机奖励</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 参与按钮 -->
+                <button class="participate-btn" id="participateBtn" onclick="participate()">
+                    🎯 立即参与
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function goBack() {
+            window.history.back();
+        }
+        
+        // 倒计时功能
+        function updateCountdown() {
+            const now = new Date();
+            const nextTimes = [
+                new Date(now.getFullYear(), now.getMonth(), now.getDate(), 12, 0, 0),
+                new Date(now.getFullYear(), now.getMonth(), now.getDate(), 18, 0, 0),
+                new Date(now.getFullYear(), now.getMonth(), now.getDate(), 21, 0, 0)
+            ];
+            
+            // 找到下一个活动时间
+            let nextTime = null;
+            for (let time of nextTimes) {
+                if (time > now) {
+                    nextTime = time;
+                    break;
+                }
+            }
+            
+            // 如果今天没有更多活动，设置为明天的12点
+            if (!nextTime) {
+                nextTime = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1, 12, 0, 0);
+            }
+            
+            const diff = nextTime - now;
+            const hours = Math.floor(diff / (1000 * 60 * 60));
+            const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+            
+            document.getElementById('countdown').textContent = 
+                `距离下次开始: ${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+        }
+        
+        // 参与活动
+        function participate() {
+            const btn = document.getElementById('participateBtn');
+            btn.disabled = true;
+            btn.textContent = '🎉 参与成功！';
+            
+            setTimeout(() => {
+                alert('恭喜您成功参与红包雨活动！\n请在活动时间准时参与抢红包。');
+                btn.disabled = false;
+                btn.textContent = '🎯 立即参与';
+            }, 1000);
+        }
+        
+        // 页面加载完成后启动倒计时
+        document.addEventListener('DOMContentLoaded', () => {
+            updateCountdown();
+            setInterval(updateCountdown, 1000);
+        });
+    </script>
+</body>
+</html>

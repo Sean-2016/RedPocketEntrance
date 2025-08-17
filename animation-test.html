@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>动画测试 - Yeeha App</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/animations.css">
+    <style>
+        .test-container {
+            padding: 20px;
+            text-align: center;
+        }
+        .test-buttons {
+            margin: 20px 0;
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        .test-btn {
+            padding: 10px 20px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        .test-btn:hover {
+            background: #5a6fd8;
+        }
+        .current-animation {
+            margin: 20px 0;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            font-family: monospace;
+        }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <div class="test-container">
+            <h1>🧪 红包入口动画测试</h1>
+            <p>点击下面的按钮测试不同的tab切换动画效果</p>
+            
+            <div class="current-animation" id="currentAnimation">
+                当前动画: 果冻弹跳 (jelly-bounce)
+            </div>
+            
+            <div class="test-buttons">
+                <button class="test-btn" onclick="testAnimation('tab-1-to-2')">首页→发现 (百叶窗)</button>
+                <button class="test-btn" onclick="testAnimation('tab-2-to-3')">发现→消息 (旋转飞入)</button>
+                <button class="test-btn" onclick="testAnimation('tab-3-to-4')">消息→我的 (缩放弹跳)</button>
+                <button class="test-btn" onclick="testAnimation('tab-4-to-5')">我的→钱包 (波浪)</button>
+                <button class="test-btn" onclick="testAnimation('tab-5-to-1')">钱包→首页 (闪光)</button>
+                <button class="test-btn" onclick="testAnimation('tab-2-to-1')">发现→首页 (右滑入)</button>
+                <button class="test-btn" onclick="testAnimation('tab-3-to-2')">消息→发现 (左滑入)</button>
+                <button class="test-btn" onclick="testAnimation('tab-4-to-3')">我的→消息 (旋转飞出)</button>
+                <button class="test-btn" onclick="testAnimation('tab-5-to-4')">钱包→我的 (缩放缩小)</button>
+                <button class="test-btn" onclick="testAnimation('tab-1-to-5')">首页→钱包 (底部滑入)</button>
+            </div>
+            
+            <div style="margin-top: 30px;">
+                <button class="test-btn" onclick="resetAnimation()" style="background: #28a745;">重置为果冻弹跳</button>
+            </div>
+        </div>
+
+        <!-- 红包活动入口 -->
+        <div class="redpacket-entry" id="redpacketEntry">
+            <div class="redpacket-icon" id="redpacketIcon">🧧</div>
+        </div>
+    </div>
+
+    <script>
+        const redpacketEntry = document.getElementById('redpacketEntry');
+        const currentAnimationDisplay = document.getElementById('currentAnimation');
+        
+        // 初始化果冻弹跳
+        redpacketEntry.classList.add('jelly-bounce');
+        
+        function testAnimation(animationType) {
+            console.log(`测试动画: ${animationType}`);
+            
+            // 移除所有动画类
+            redpacketEntry.classList.remove(
+                'jelly-bounce',
+                'tab-1-to-2', 'tab-2-to-3', 'tab-3-to-4', 'tab-4-to-5', 'tab-5-to-1',
+                'tab-2-to-1', 'tab-3-to-2', 'tab-4-to-3', 'tab-5-to-4', 'tab-1-to-5'
+            );
+            
+            // 添加测试动画类
+            redpacketEntry.classList.add(animationType);
+            
+            // 更新显示
+            currentAnimationDisplay.textContent = `当前动画: ${animationType}`;
+            
+            // 动画结束后恢复果冻弹跳
+            setTimeout(() => {
+                redpacketEntry.classList.remove(animationType);
+                redpacketEntry.classList.add('jelly-bounce');
+                currentAnimationDisplay.textContent = '当前动画: 果冻弹跳 (jelly-bounce)';
+                console.log('动画结束，恢复果冻弹跳');
+            }, 800);
+        }
+        
+        function resetAnimation() {
+            // 移除所有动画类
+            redpacketEntry.classList.remove(
+                'tab-1-to-2', 'tab-2-to-3', 'tab-3-to-4', 'tab-4-to-5', 'tab-5-to-1',
+                'tab-2-to-1', 'tab-3-to-2', 'tab-4-to-3', 'tab-5-to-4', 'tab-1-to-5'
+            );
+            
+            // 恢复果冻弹跳
+            redpacketEntry.classList.add('jelly-bounce');
+            currentAnimationDisplay.textContent = '当前动画: 果冻弹跳 (jelly-bounce)';
+            console.log('重置为果冻弹跳动画');
+        }
+        
+        // 页面加载完成后的调试信息
+        document.addEventListener('DOMContentLoaded', () => {
+            console.log('动画测试页面加载完成');
+            console.log('红包入口元素:', redpacketEntry);
+            console.log('红包入口类名:', redpacketEntry.className);
+            console.log('红包入口样式:', window.getComputedStyle(redpacketEntry));
+        });
+    </script>
+</body>
+</html>

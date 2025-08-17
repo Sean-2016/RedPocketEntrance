@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>好友列表 - Yeeha App</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/animations.css">
+    <style>
+        .friend-list {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        
+        .friend-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 15px;
+            transition: all 0.3s ease;
+        }
+        
+        .friend-item:hover {
+            background: #e9ecef;
+            transform: translateY(-2px);
+        }
+        
+        .friend-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .friend-avatar {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            color: white;
+        }
+        
+        .friend-details h3 {
+            font-size: 16px;
+            margin-bottom: 5px;
+            color: #333;
+        }
+        
+        .friend-details p {
+            font-size: 14px;
+            color: #666;
+        }
+        
+        .friend-actions {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .action-btn {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 20px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        
+        .receive-redpacket {
+            background: #ff6b6b;
+            color: white;
+        }
+        
+        .receive-redpacket:hover {
+            background: #ee5a24;
+            transform: scale(1.05);
+        }
+        
+        .redpacket-received {
+            background: #ff6b6b;
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .redpacket-received::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg, transparent 30%, rgba(255, 255, 255, 0.3) 50%, transparent 70%);
+            animation: shimmer 2s infinite;
+        }
+        
+        @keyframes shimmer {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+        
+        .countdown-timer {
+            position: absolute;
+            top: -12px;
+            right: -12px;
+            background: #28a745;
+            color: white;
+            border-radius: 50%;
+            width: 26px;
+            height: 26px;
+            font-size: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            z-index: 9999;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+            border: 3px solid white;
+            font-family: Arial, sans-serif;
+            line-height: 1;
+            text-align: center;
+        }
+        
+        .chat-btn {
+            background: #667eea;
+            color: white;
+        }
+        
+        .chat-btn:hover {
+            background: #5a6fd8;
+            transform: scale(1.05);
+        }
+        
+        .back-btn {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            padding: 10px 20px;
+            background: rgba(255, 255, 255, 0.9);
+            border: none;
+            border-radius: 25px;
+            color: #333;
+            font-size: 16px;
+            cursor: pointer;
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+        }
+        
+        .back-btn:hover {
+            background: rgba(255, 255, 255, 1);
+            transform: translateY(-2px);
+        }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <!-- 返回按钮 -->
+        <button class="back-btn" onclick="goBack()">← 返回</button>
+        
+        <!-- 页面内容 -->
+        <div class="page-content">
+            <div class="content-header">
+                <h1>👥 好友列表</h1>
+                <p>与好友互动，收取红包</p>
+            </div>
+            
+            <div class="content-body">
+                <div class="friend-list">
+                    <div class="friend-item">
+                        <div class="friend-info">
+                            <div class="friend-avatar">👤</div>
+                            <div class="friend-details">
+                                <h3>张三</h3>
+                                <p>在线 • 最后活跃: 2分钟前</p>
+                            </div>
+                        </div>
+                        <div class="friend-actions">
+                            <button class="action-btn chat-btn">聊天</button>
+                            <button class="action-btn receive-redpacket" data-friend="张三" onclick="receiveRedPacket(this)">收红包</button>
+                        </div>
+                    </div>
+                    
+                    <div class="friend-item">
+                        <div class="friend-info">
+                            <div class="friend-avatar">👤</div>
+                            <div class="friend-details">
+                                <h3>李四</h3>
+                                <p>离线 • 最后活跃: 1小时前</p>
+                            </div>
+                        </div>
+                        <div class="friend-actions">
+                            <button class="action-btn chat-btn">聊天</button>
+                            <button class="action-btn receive-redpacket" data-friend="李四" onclick="receiveRedPacket(this)">收红包</button>
+                        </div>
+                    </div>
+                    
+                    <div class="friend-item">
+                        <div class="friend-info">
+                            <div class="friend-avatar">👤</div>
+                            <div class="friend-details">
+                                <h3>王五</h3>
+                                <p>在线 • 最后活跃: 5分钟前</p>
+                            </div>
+                        </div>
+                        <div class="friend-actions">
+                            <button class="action-btn chat-btn">聊天</button>
+                            <button class="action-btn receive-redpacket" data-friend="王五" onclick="receiveRedPacket(this)">收红包</button>
+                        </div>
+                    </div>
+                    
+                    <div class="friend-item">
+                        <div class="friend-info">
+                            <div class="friend-avatar">👤</div>
+                            <div class="friend-details">
+                                <h3>赵六</h3>
+                                <p>在线 • 最后活跃: 10分钟前</p>
+                            </div>
+                        </div>
+                        <div class="friend-actions">
+                            <button class="action-btn chat-btn">聊天</button>
+                            <button class="action-btn receive-redpacket" data-friend="赵六" onclick="receiveRedPacket(this)">收红包</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function goBack() {
+            window.history.back();
+        }
+        
+        // 为按钮添加点击事件
+        document.addEventListener('DOMContentLoaded', () => {
+            console.log('好友列表页面加载完成');
+            
+            // 聊天按钮点击事件
+            document.querySelectorAll('.chat-btn').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    const friendName = e.target.closest('.friend-item').querySelector('h3').textContent;
+                    alert(`开始与 ${friendName} 聊天`);
+                });
+            });
+            
+            // 检查是否有已收的红包需要倒计时
+            checkReceivedRedPackets();
+        });
+        
+
+        
+        // 收红包功能
+        function receiveRedPacket(button) {
+            const friendName = button.getAttribute('data-friend');
+            const amount = Math.floor(Math.random() * 50) + 1; // 随机红包金额1-50元
+            
+            // 显示收红包成功提示
+            alert(`🎉 成功收到来自 ${friendName} 的红包！\n金额：¥${amount}`);
+            
+            // 更新按钮样式为已收红包状态
+            button.classList.remove('receive-redpacket');
+            button.classList.add('redpacket-received');
+            button.textContent = '🧧';
+            button.disabled = true;
+            
+            // 添加倒计时计时器
+            const countdownTimer = document.createElement('div');
+            countdownTimer.className = 'countdown-timer';
+            countdownTimer.textContent = '2h';
+            button.appendChild(countdownTimer);
+            
+            // 调试信息
+            console.log('倒计时计时器已创建:', countdownTimer);
+            console.log('按钮状态:', button.classList.toString());
+            
+            // 记录收红包时间到localStorage
+            const redPacketData = {
+                friend: friendName,
+                amount: amount,
+                receivedTime: Date.now(),
+                expiresIn: 2 * 60 * 60 * 1000 // 2小时
+            };
+            
+            const key = `redpacket_${friendName}_${Date.now()}`;
+            localStorage.setItem(key, JSON.stringify(redPacketData));
+            
+            // 开始倒计时
+            startCountdown(button, redPacketData.expiresIn);
+        }
+        
+        // 开始倒计时
+        function startCountdown(button, duration) {
+            const countdownTimer = button.querySelector('.countdown-timer');
+            if (!countdownTimer) return;
+            
+            const startTime = Date.now();
+            
+            const updateCountdown = () => {
+                const elapsed = Date.now() - startTime;
+                const remaining = duration - elapsed;
+                
+                if (remaining <= 0) {
+                    // 倒计时结束，恢复按钮状态
+                    button.classList.remove('redpacket-received');
+                    button.classList.add('receive-redpacket');
+                    button.textContent = '收红包';
+                    button.disabled = false;
+                    
+                    if (countdownTimer) {
+                        countdownTimer.remove();
+                    }
+                    
+                    return;
+                }
+                
+                // 计算剩余时间
+                const hours = Math.floor(remaining / (1000 * 60 * 60));
+                const minutes = Math.floor((remaining % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((remaining % (1000 * 60)) / 1000);
+                
+                // 更新倒计时显示
+                if (hours > 0) {
+                    countdownTimer.textContent = `${hours}h${minutes}m`;
+                } else if (minutes > 0) {
+                    countdownTimer.textContent = `${minutes}m${seconds}s`;
+                } else {
+                    countdownTimer.textContent = `${seconds}s`;
+                }
+                
+                // 继续倒计时
+                setTimeout(updateCountdown, 1000);
+            };
+            
+            updateCountdown();
+        }
+        
+        // 检查已收的红包
+        function checkReceivedRedPackets() {
+            const keys = Object.keys(localStorage);
+            const redPacketKeys = keys.filter(key => key.startsWith('redpacket_'));
+            
+            redPacketKeys.forEach(key => {
+                try {
+                    const data = JSON.parse(localStorage.getItem(key));
+                    const elapsed = Date.now() - data.receivedTime;
+                    
+                    if (elapsed < data.expiresIn) {
+                        // 红包还在有效期内，找到对应按钮并更新状态
+                        const button = document.querySelector(`[data-friend="${data.friend}"]`);
+                        if (button && button.classList.contains('receive-redpacket')) {
+                            // 更新按钮状态
+                            button.classList.remove('receive-redpacket');
+                            button.classList.add('redpacket-received');
+                            button.textContent = '🧧';
+                            button.disabled = true;
+                            
+                            // 添加倒计时计时器
+                            const countdownTimer = document.createElement('div');
+                            countdownTimer.className = 'countdown-timer';
+                            button.appendChild(countdownTimer);
+                            
+                            // 继续倒计时
+                            const remainingTime = data.expiresIn - elapsed;
+                            startCountdown(button, remainingTime);
+                        }
+                    } else {
+                        // 红包已过期，删除记录
+                        localStorage.removeItem(key);
+                    }
+                } catch (e) {
+                    console.error('解析红包数据失败:', e);
+                }
+            });
+        }
+    </script>
+</body>
+</html>

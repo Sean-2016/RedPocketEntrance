@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>邀请好友 - Yeeha App</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/animations.css">
+    <style>
+        .invite-section {
+            margin-bottom: 25px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 15px;
+        }
+        
+        .invite-section h3 {
+            color: #667eea;
+            margin-bottom: 15px;
+            font-size: 18px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .invite-link-box {
+            background: white;
+            border: 2px dashed #667eea;
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        
+        .invite-link {
+            font-family: monospace;
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+            word-break: break-all;
+            font-size: 14px;
+            color: #333;
+        }
+        
+        .copy-btn {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 25px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .copy-btn:hover {
+            background: #5a6fd8;
+            transform: translateY(-2px);
+        }
+        
+        .copy-btn.copied {
+            background: #28a745;
+        }
+        
+        .share-buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-top: 20px;
+        }
+        
+        .share-btn {
+            padding: 12px 20px;
+            border: none;
+            border-radius: 25px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .share-btn.wechat {
+            background: #07c160;
+            color: white;
+        }
+        
+        .share-btn.qq {
+            background: #12b7f5;
+            color: white;
+        }
+        
+        .share-btn.weibo {
+            background: #e6162d;
+            color: white;
+        }
+        
+        .share-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .stat-item {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+            border: 2px solid #e9ecef;
+        }
+        
+        .stat-number {
+            font-size: 24px;
+            font-weight: bold;
+            color: #667eea;
+            margin-bottom: 5px;
+        }
+        
+        .stat-label {
+            font-size: 14px;
+            color: #666;
+        }
+        
+        .invite-record {
+            max-height: 300px;
+            overflow-y: auto;
+        }
+        
+        .record-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 15px;
+            background: white;
+            border-radius: 10px;
+            margin-bottom: 10px;
+            border-left: 3px solid #e9ecef;
+        }
+        
+        .record-item.success {
+            border-left-color: #28a745;
+        }
+        
+        .record-item.pending {
+            border-left-color: #ffc107;
+        }
+        
+        .record-item.failed {
+            border-left-color: #dc3545;
+        }
+        
+        .record-info h4 {
+            font-size: 16px;
+            margin-bottom: 5px;
+            color: #333;
+        }
+        
+        .record-info p {
+            font-size: 14px;
+            color: #666;
+        }
+        
+        .record-status {
+            padding: 4px 12px;
+            border-radius: 15px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+        
+        .status-success {
+            background: #d4edda;
+            color: #155724;
+        }
+        
+        .status-pending {
+            background: #fff3cd;
+            color: #856404;
+        }
+        
+        .status-failed {
+            background: #f8d7da;
+            color: #721c24;
+        }
+        
+        .back-btn {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            padding: 10px 20px;
+            background: rgba(255, 255, 255, 0.9);
+            border: none;
+            border-radius: 25px;
+            color: #333;
+            font-size: 16px;
+            cursor: pointer;
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+        }
+        
+        .back-btn:hover {
+            background: rgba(255, 255, 255, 1);
+            transform: translateY(-2px);
+        }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <!-- 返回按钮 -->
+        <button class="back-btn" onclick="goBack()">← 返回</button>
+        
+        <!-- 页面内容 -->
+        <div class="page-content">
+            <div class="content-header">
+                <h1>📢 邀请好友</h1>
+                <p>邀请好友加入，获得丰厚奖励</p>
+            </div>
+            
+            <div class="content-body">
+                <!-- 邀请统计 -->
+                <div class="invite-section">
+                    <h3>📊 邀请统计</h3>
+                    <div class="stats-grid">
+                        <div class="stat-item">
+                            <div class="stat-number" id="totalInvites">12</div>
+                            <div class="stat-label">总邀请数</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-number" id="successInvites">8</div>
+                            <div class="stat-label">成功邀请</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-number" id="totalRewards">¥156</div>
+                            <div class="stat-label">累计奖励</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 专属邀请链接 -->
+                <div class="invite-section">
+                    <h3>🔗 专属邀请链接</h3>
+                    <div class="invite-link-box">
+                        <p>复制以下链接发送给好友，好友注册成功后您将获得奖励</p>
+                        <div class="invite-link" id="inviteLink">
+                            https://yeeha.app/invite?code=USER123456
+                        </div>
+                        <button class="copy-btn" id="copyBtn" onclick="copyLink()">
+                            📋 复制链接
+                        </button>
+                        
+                        <div class="share-buttons">
+                            <button class="share-btn wechat" onclick="share('wechat')">
+                                💬 微信
+                            </button>
+                            <button class="share-btn qq" onclick="share('qq')">
+                                💬 QQ
+                            </button>
+                            <button class="share-btn weibo" onclick="share('weibo')">
+                                🌐 微博
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 邀请记录 -->
+                <div class="invite-section">
+                    <h3>📝 邀请记录</h3>
+                    <div class="invite-record">
+                        <div class="record-item success">
+                            <div class="record-info">
+                                <h4>李小明</h4>
+                                <p>注册时间: 2024-01-15 14:30</p>
+                            </div>
+                            <span class="record-status status-success">成功</span>
+                        </div>
+                        
+                        <div class="record-item success">
+                            <div class="record-info">
+                                <h4>王小红</h4>
+                                <p>注册时间: 2024-01-14 09:15</p>
+                            </div>
+                            <span class="record-status status-success">成功</span>
+                        </div>
+                        
+                        <div class="record-item pending">
+                            <div class="record-info">
+                                <h4>张小华</h4>
+                                <p>注册时间: 2024-01-13 16:45</p>
+                            </div>
+                            <span class="record-status status-pending">审核中</span>
+                        </div>
+                        
+                        <div class="record-item failed">
+                            <div class="record-info">
+                                <h4>刘小强</h4>
+                                <p>注册时间: 2024-01-12 11:20</p>
+                            </div>
+                            <span class="record-status status-failed">不符合条件</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 邀请条件 -->
+                <div class="invite-section">
+                    <h3>✅ 邀请条件</h3>
+                    <ul>
+                        <li>好友必须通过您的专属链接注册</li>
+                        <li>好友需要完成实名认证</li>
+                        <li>好友首次充值金额需≥10元</li>
+                        <li>好友无违规记录</li>
+                        <li>邀请奖励将在好友满足条件后24小时内发放</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function goBack() {
+            window.history.back();
+        }
+        
+        // 复制邀请链接
+        function copyLink() {
+            const link = document.getElementById('inviteLink').textContent;
+            navigator.clipboard.writeText(link).then(() => {
+                const btn = document.getElementById('copyBtn');
+                btn.textContent = '✅ 已复制';
+                btn.classList.add('copied');
+                
+                setTimeout(() => {
+                    btn.textContent = '📋 复制链接';
+                    btn.classList.remove('copied');
+                }, 2000);
+            }).catch(() => {
+                alert('复制失败，请手动复制链接');
+            });
+        }
+        
+        // 分享功能
+        function share(platform) {
+            const link = document.getElementById('inviteLink').textContent;
+            const text = '邀请您加入Yeeha App，注册即送红包！';
+            
+            let shareUrl = '';
+            switch (platform) {
+                case 'wechat':
+                    alert('请复制链接到微信分享给好友');
+                    break;
+                case 'qq':
+                    shareUrl = `https://connect.qq.com/widget/shareqq/index.html?url=${encodeURIComponent(link)}&title=${encodeURIComponent(text)}`;
+                    window.open(shareUrl, '_blank');
+                    break;
+                case 'weibo':
+                    shareUrl = `https://service.weibo.com/share/share.php?url=${encodeURIComponent(link)}&title=${encodeURIComponent(text)}`;
+                    window.open(shareUrl, '_blank');
+                    break;
+            }
+        }
+        
+        // 模拟实时更新邀请数据
+        function updateStats() {
+            // 这里可以添加实时数据更新逻辑
+            console.log('邀请数据已更新');
+        }
+        
+        // 页面加载完成后的初始化
+        document.addEventListener('DOMContentLoaded', () => {
+            updateStats();
+        });
+    </script>
+</body>
+</html>

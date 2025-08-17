@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>任务列表 - Yeeha App</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/animations.css">
+    <style>
+        .task-section {
+            margin-bottom: 25px;
+        }
+        
+        .task-section h3 {
+            color: #667eea;
+            margin-bottom: 15px;
+            font-size: 18px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .task-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 15px;
+            margin-bottom: 15px;
+            transition: all 0.3s ease;
+            border-left: 4px solid #e9ecef;
+        }
+        
+        .task-item:hover {
+            background: #e9ecef;
+            transform: translateY(-2px);
+        }
+        
+        .task-item.completed {
+            border-left-color: #28a745;
+            background: #d4edda;
+        }
+        
+        .task-item.available {
+            border-left-color: #ffc107;
+            background: #fff3cd;
+        }
+        
+        .task-item.locked {
+            border-left-color: #6c757d;
+            background: #e9ecef;
+            opacity: 0.6;
+        }
+        
+        .task-info {
+            flex: 1;
+            margin-right: 20px;
+        }
+        
+        .task-info h4 {
+            font-size: 16px;
+            margin-bottom: 8px;
+            color: #333;
+        }
+        
+        .task-info p {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 5px;
+        }
+        
+        .task-progress {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 8px;
+        }
+        
+        .progress-bar {
+            flex: 1;
+            height: 6px;
+            background: #e9ecef;
+            border-radius: 3px;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border-radius: 3px;
+            transition: width 0.3s ease;
+        }
+        
+        .progress-text {
+            font-size: 12px;
+            color: #666;
+            min-width: 60px;
+            text-align: right;
+        }
+        
+        .task-reward {
+            text-align: center;
+            margin-right: 15px;
+        }
+        
+        .reward-amount {
+            font-size: 18px;
+            font-weight: bold;
+            color: #ff6b6b;
+            margin-bottom: 5px;
+        }
+        
+        .reward-label {
+            font-size: 12px;
+            color: #666;
+        }
+        
+        .task-action {
+            min-width: 80px;
+        }
+        
+        .action-btn {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 20px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 100%;
+        }
+        
+        .action-btn.claim {
+            background: #28a745;
+            color: white;
+        }
+        
+        .action-btn.claim:hover {
+            background: #218838;
+            transform: scale(1.05);
+        }
+        
+        .action-btn.do {
+            background: #667eea;
+            color: white;
+        }
+        
+        .action-btn.do:hover {
+            background: #5a6fd8;
+            transform: scale(1.05);
+        }
+        
+        .action-btn.locked {
+            background: #6c757d;
+            color: white;
+            cursor: not-allowed;
+        }
+        
+        .action-btn.locked:hover {
+            transform: none;
+        }
+        
+        .daily-bonus {
+            background: linear-gradient(135deg, #ff6b6b, #ee5a24);
+            color: white;
+            padding: 20px;
+            border-radius: 15px;
+            text-align: center;
+            margin-bottom: 25px;
+        }
+        
+        .daily-bonus h2 {
+            font-size: 20px;
+            margin-bottom: 10px;
+        }
+        
+        .daily-bonus p {
+            opacity: 0.9;
+            margin-bottom: 15px;
+        }
+        
+        .bonus-btn {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            padding: 12px 30px;
+            border-radius: 25px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .bonus-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+        }
+        
+        .bonus-btn.claimed {
+            background: rgba(255, 255, 255, 0.1);
+            cursor: not-allowed;
+        }
+        
+        .back-btn {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            padding: 10px 20px;
+            background: rgba(255, 255, 255, 0.9);
+            border: none;
+            border-radius: 25px;
+            color: #333;
+            font-size: 16px;
+            cursor: pointer;
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+        }
+        
+        .back-btn:hover {
+            background: rgba(255, 255, 255, 1);
+            transform: translateY(-2px);
+        }
+        
+        .stats-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: white;
+            padding: 15px 20px;
+            border-radius: 15px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .stat-item {
+            text-align: center;
+        }
+        
+        .stat-number {
+            font-size: 20px;
+            font-weight: bold;
+            color: #667eea;
+        }
+        
+        .stat-label {
+            font-size: 12px;
+            color: #666;
+            margin-top: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <!-- 返回按钮 -->
+        <button class="back-btn" onclick="goBack()">← 返回</button>
+        
+        <!-- 页面内容 -->
+        <div class="page-content">
+            <div class="content-header">
+                <h1>🪙 任务中心</h1>
+                <p>完成任务，获得金币奖励</p>
+            </div>
+            
+            <div class="content-body">
+                <!-- 每日签到奖励 -->
+                <div class="daily-bonus">
+                    <h2>🎁 每日签到</h2>
+                    <p>连续签到可获得更多奖励</p>
+                    <button class="bonus-btn" id="bonusBtn" onclick="claimDailyBonus()">
+                        📅 立即签到
+                    </button>
+                </div>
+                
+                <!-- 金币统计 -->
+                <div class="stats-bar">
+                    <div class="stat-item">
+                        <div class="stat-number" id="totalCoins">1,234</div>
+                        <div class="stat-label">总金币</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number" id="todayEarned">156</div>
+                        <div class="stat-label">今日获得</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number" id="totalTasks">8/12</div>
+                        <div class="stat-label">任务完成</div>
+                    </div>
+                </div>
+                
+                <!-- 每日任务 -->
+                <div class="task-section">
+                    <h3>📅 每日任务</h3>
+                    
+                    <div class="task-item available" data-task="daily-login">
+                        <div class="task-info">
+                            <h4>每日登录</h4>
+                            <p>登录App即可获得奖励</p>
+                            <div class="task-progress">
+                                <div class="progress-bar">
+                                    <div class="progress-fill" style="width: 100%"></div>
+                                </div>
+                                <span class="progress-text">1/1</span>
+                            </div>
+                        </div>
+                        <div class="task-reward">
+                            <div class="reward-amount">+10</div>
+                            <div class="reward-label">金币</div>
+                        </div>
+                        <div class="task-action">
+                            <button class="action-btn claim" onclick="claimReward('daily-login')">
+                                🎁 领取
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="task-item available" data-task="share-app">
+                        <div class="task-info">
+                            <h4>分享App</h4>
+                            <p>分享App给好友</p>
+                            <div class="task-progress">
+                                <div class="progress-bar">
+                                    <div class="progress-fill" style="width: 0%"></div>
+                                </div>
+                                <span class="progress-text">0/1</span>
+                            </div>
+                        </div>
+                        <div class="task-reward">
+                            <div class="reward-amount">+20</div>
+                            <div class="reward-label">金币</div>
+                        </div>
+                        <div class="task-action">
+                            <button class="action-btn do" onclick="doTask('share-app')">
+                                📤 去分享
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="task-item available" data-task="invite-friend">
+                        <div class="task-info">
+                            <h4>邀请好友</h4>
+                            <p>成功邀请1位好友注册</p>
+                            <div class="task-progress">
+                                <div class="progress-bar">
+                                    <div class="progress-fill" style="width: 0%"></div>
+                                </div>
+                                <span class="progress-text">0/1</span>
+                            </div>
+                        </div>
+                        <div class="task-reward">
+                            <div class="reward-amount">+50</div>
+                            <div class="reward-label">金币</div>
+                        </div>
+                        <div class="task-action">
+                            <button class="action-btn do" onclick="doTask('invite-friend')">
+                                👥 去邀请
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 成长任务 -->
+                <div class="task-section">
+                    <h3>🌱 成长任务</h3>
+                    
+                    <div class="task-item available" data-task="complete-profile">
+                        <div class="task-info">
+                            <h4>完善资料</h4>
+                            <p>完善个人资料信息</p>
+                            <div class="task-progress">
+                                <div class="progress-bar">
+                                    <div class="progress-fill" style="width: 60%"></div>
+                                </div>
+                                <span class="progress-text">3/5</span>
+                            </div>
+                        </div>
+                        <div class="task-reward">
+                            <div class="reward-amount">+30</div>
+                            <div class="reward-label">金币</div>
+                        </div>
+                        <div class="task-action">
+                            <button class="action-btn do" onclick="doTask('complete-profile')">
+                                ✏️ 去完善
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="task-item locked" data-task="first-recharge">
+                        <div class="task-info">
+                            <h4>首次充值</h4>
+                            <p>完成首次充值</p>
+                            <div class="task-progress">
+                                <div class="progress-bar">
+                                    <div class="progress-fill" style="width: 0%"></div>
+                                </div>
+                                <span class="progress-text">0/1</span>
+                            </div>
+                        </div>
+                        <div class="task-reward">
+                            <div class="reward-amount">+100</div>
+                            <div class="reward-label">金币</div>
+                        </div>
+                        <div class="task-action">
+                            <button class="action-btn locked">
+                                🔒 未解锁
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 活动任务 -->
+                <div class="task-section">
+                    <h3>🎉 活动任务</h3>
+                    
+                    <div class="task-item available" data-task="redpacket-rain">
+                        <div class="task-info">
+                            <h4>参与红包雨</h4>
+                            <p>参与一次红包雨活动</p>
+                            <div class="task-progress">
+                                <div class="progress-bar">
+                                    <div class="progress-fill" style="width: 0%"></div>
+                                </div>
+                                <span class="progress-text">0/1</span>
+                            </div>
+                        </div>
+                        <div class="task-reward">
+                            <div class="reward-amount">+25</div>
+                            <div class="reward-label">金币</div>
+                        </div>
+                        <div class="task-action">
+                            <button class="action-btn do" onclick="doTask('redpacket-rain')">
+                                🌧️ 去参与
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function goBack() {
+            window.history.back();
+        }
+        
+        // 领取每日签到奖励
+        function claimDailyBonus() {
+            const btn = document.getElementById('bonusBtn');
+            btn.textContent = '✅ 已签到';
+            btn.classList.add('claimed');
+            btn.disabled = true;
+            
+            // 更新金币数量
+            const totalCoins = document.getElementById('totalCoins');
+            const todayEarned = document.getElementById('todayEarned');
+            const currentTotal = parseInt(totalCoins.textContent);
+            const currentToday = parseInt(todayEarned.textContent);
+            
+            totalCoins.textContent = currentTotal + 50;
+            todayEarned.textContent = currentToday + 50;
+            
+            alert('🎉 签到成功！获得50金币奖励');
+        }
+        
+        // 领取任务奖励
+        function claimReward(taskId) {
+            const taskItem = document.querySelector(`[data-task="${taskId}"]`);
+            const claimBtn = taskItem.querySelector('.action-btn');
+            const rewardAmount = taskItem.querySelector('.reward-amount').textContent;
+            const rewardNum = parseInt(rewardAmount.replace('+', ''));
+            
+            // 更新任务状态
+            taskItem.classList.remove('available');
+            taskItem.classList.add('completed');
+            claimBtn.textContent = '✅ 已领取';
+            claimBtn.disabled = true;
+            
+            // 更新金币数量
+            const totalCoins = document.getElementById('totalCoins');
+            const todayEarned = document.getElementById('todayEarned');
+            const currentTotal = parseInt(totalCoins.textContent);
+            const currentToday = parseInt(todayEarned.textContent);
+            
+            totalCoins.textContent = currentTotal + rewardNum;
+            todayEarned.textContent = currentToday + rewardNum;
+            
+            alert(`🎉 恭喜获得${rewardAmount}金币！`);
+        }
+        
+        // 执行任务
+        function doTask(taskId) {
+            const taskItem = document.querySelector(`[data-task="${taskId}"]`);
+            const taskName = taskItem.querySelector('h4').textContent;
+            
+            switch (taskId) {
+                case 'share-app':
+                    alert('请分享App给好友');
+                    break;
+                case 'invite-friend':
+                    window.location.href = 'invite.html';
+                    break;
+                case 'complete-profile':
+                    alert('请完善个人资料');
+                    break;
+                case 'redpacket-rain':
+                    window.location.href = 'redpacket-rain.html';
+                    break;
+                default:
+                    alert(`请完成${taskName}任务`);
+            }
+        }
+        
+        // 页面加载完成后的初始化
+        document.addEventListener('DOMContentLoaded', () => {
+            // 检查是否已经签到
+            const today = new Date().toDateString();
+            const lastSignIn = localStorage.getItem('lastSignIn');
+            
+            if (lastSignIn === today) {
+                const btn = document.getElementById('bonusBtn');
+                btn.textContent = '✅ 已签到';
+                btn.classList.add('claimed');
+                btn.disabled = true;
+            }
+        });
+    </script>
+</body>
+</html>
