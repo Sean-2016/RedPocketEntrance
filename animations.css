@@ -1,0 +1,416 @@
+/* 红包入口果冻弹跳动画 */
+@keyframes jellyBounce {
+    0%, 100% {
+        transform: scale(1);
+    }
+    25% {
+        transform: scale(1.1) rotate(2deg);
+    }
+    50% {
+        transform: scale(0.95) rotate(-1deg);
+    }
+    75% {
+        transform: scale(1.05) rotate(1deg);
+    }
+}
+
+.redpacket-entry.jelly-bounce {
+    animation: jellyBounce 2s ease-in-out infinite;
+}
+
+/* Tab切换时的特殊动画 */
+@keyframes rotateFlyIn {
+    0% {
+        transform: rotate(360deg) scale(0) translateX(100px);
+        opacity: 0;
+    }
+    50% {
+        transform: rotate(180deg) scale(1.2) translateX(0);
+        opacity: 0.8;
+    }
+    100% {
+        transform: rotate(0deg) scale(1) translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes blindsEffect {
+    0% {
+        transform: scaleY(0);
+        opacity: 0;
+    }
+    50% {
+        transform: scaleY(0.5);
+        opacity: 0.5;
+    }
+    100% {
+        transform: scaleY(1);
+        opacity: 1;
+    }
+}
+
+@keyframes slideFromLeft {
+    0% {
+        transform: translateX(-100px);
+        opacity: 0;
+    }
+    100% {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes slideFromRight {
+    0% {
+        transform: translateX(100px);
+        opacity: 0;
+    }
+    100% {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes zoomIn {
+    0% {
+        transform: scale(0.5);
+        opacity: 0;
+    }
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+/* 红包入口在tab切换时的动画类 */
+.redpacket-entry.rotate-fly {
+    animation: rotateFlyIn 0.8s ease-out;
+}
+
+.redpacket-entry.blinds-effect {
+    animation: blindsEffect 0.6s ease-out;
+}
+
+.redpacket-entry.slide-left {
+    animation: slideFromLeft 0.5s ease-out;
+}
+
+.redpacket-entry.slide-right {
+    animation: slideFromRight 0.5s ease-out;
+}
+
+.redpacket-entry.zoom-in {
+    animation: zoomIn 0.4s ease-out;
+}
+
+/* 新增的tab切换动效 */
+.redpacket-entry.tab-1-to-2 {
+    animation: blindsEffect 0.8s ease-in-out;
+}
+
+.redpacket-entry.tab-2-to-3 {
+    animation: rotateFlyIn 0.8s ease-in-out;
+}
+
+.redpacket-entry.tab-3-to-4 {
+    animation: scaleBounce 0.8s ease-in-out;
+}
+
+.redpacket-entry.tab-4-to-5 {
+    animation: waveEffect 0.8s ease-in-out;
+}
+
+.redpacket-entry.tab-5-to-1 {
+    animation: flashEffect 0.8s ease-in-out;
+}
+
+/* 反向切换动效 */
+.redpacket-entry.tab-2-to-1 {
+    animation: slideFromRight 0.8s ease-in-out;
+}
+
+.redpacket-entry.tab-3-to-2 {
+    animation: slideFromLeft 0.8s ease-in-out;
+}
+
+.redpacket-entry.tab-4-to-3 {
+    animation: rotateFlyOut 0.8s ease-in-out;
+}
+
+.redpacket-entry.tab-5-to-4 {
+    animation: scaleDown 0.8s ease-in-out;
+}
+
+.redpacket-entry.tab-1-to-5 {
+    animation: slideFromBottom 0.8s ease-in-out;
+}
+
+/* 红包入口点击时的脉冲效果 */
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+        box-shadow: 0 8px 25px rgba(255, 107, 107, 0.4);
+    }
+    50% {
+        transform: scale(1.2);
+        box-shadow: 0 12px 35px rgba(255, 107, 107, 0.8);
+    }
+    100% {
+        transform: scale(1);
+        box-shadow: 0 8px 25px rgba(255, 107, 107, 0.4);
+    }
+}
+
+.redpacket-entry.clicked {
+    animation: pulse 0.3s ease-out;
+}
+
+/* 活动项目悬停效果 */
+.activity-item {
+    position: relative;
+    overflow: hidden;
+}
+
+.activity-item::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+    transition: left 0.5s;
+}
+
+.activity-item:hover::before {
+    left: 100%;
+}
+
+/* 底部导航项的激活动画 */
+@keyframes navActivate {
+    0% {
+        transform: scale(0.8);
+        opacity: 0.5;
+    }
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+.nav-item.active {
+    animation: navActivate 0.3s ease-out;
+}
+
+/* 页面内容切换动画 */
+.tab-content {
+    transition: all 0.3s ease-in-out;
+}
+
+.tab-content.fade-out {
+    opacity: 0;
+    transform: translateY(20px);
+}
+
+.tab-content.fade-in {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* 红包弹窗出现动画 */
+@keyframes modalBounce {
+    0% {
+        transform: scale(0.3) translateY(-100px);
+        opacity: 0;
+    }
+    50% {
+        transform: scale(1.05) translateY(0);
+        opacity: 0.8;
+    }
+    100% {
+        transform: scale(1) translateY(0);
+        opacity: 1;
+    }
+}
+
+.modal-content {
+    animation: modalBounce 0.4s ease-out;
+}
+
+/* 活动项目网格动画 */
+.activity-grid {
+    animation: fadeIn 0.5s ease-out 0.2s both;
+}
+
+.activity-item {
+    animation: slideUp 0.4s ease-out both;
+}
+
+.activity-item:nth-child(1) { animation-delay: 0.1s; }
+.activity-item:nth-child(2) { animation-delay: 0.2s; }
+.activity-item:nth-child(3) { animation-delay: 0.3s; }
+.activity-item:nth-child(4) { animation-delay: 0.4s; }
+
+/* 响应式动画调整 */
+@media (max-width: 480px) {
+    .redpacket-entry {
+        animation: jellyBounce 1.8s ease-in-out infinite;
+    }
+    
+    .redpacket-entry.rotate-fly {
+        animation: rotateFlyIn 0.6s ease-out;
+    }
+    
+    .redpacket-entry.blinds-effect {
+        animation: blindsEffect 0.5s ease-out;
+    }
+}
+
+/* 性能优化 */
+.redpacket-entry,
+.nav-item,
+.activity-item {
+    will-change: transform, opacity;
+}
+
+/* 平滑滚动 */
+html {
+    scroll-behavior: smooth;
+}
+
+/* 加载状态动画 */
+@keyframes loading {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+.loading::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 20px;
+    height: 20px;
+    margin: -10px 0 0 -10px;
+    border: 2px solid #f3f3f3;
+    border-top: 2px solid #667eea;
+    border-radius: 50%;
+    animation: loading 1s linear infinite;
+}
+
+/* 新增的tab切换动效关键帧 */
+@keyframes scaleBounce {
+    0% {
+        transform: scale(0.5) rotate(0deg);
+        opacity: 0;
+    }
+    50% {
+        transform: scale(1.2) rotate(180deg);
+        opacity: 0.8;
+    }
+    100% {
+        transform: scale(1) rotate(360deg);
+        opacity: 1;
+    }
+}
+
+@keyframes waveEffect {
+    0% {
+        transform: scale(1) translateY(0);
+        opacity: 1;
+    }
+    25% {
+        transform: scale(1.1) translateY(-10px);
+        opacity: 0.8;
+    }
+    50% {
+        transform: scale(0.9) translateY(5px);
+        opacity: 0.9;
+    }
+    75% {
+        transform: scale(1.05) translateY(-5px);
+        opacity: 0.8;
+    }
+    100% {
+        transform: scale(1) translateY(0);
+        opacity: 1;
+    }
+}
+
+@keyframes flashEffect {
+    0% {
+        transform: scale(1);
+        opacity: 1;
+        filter: brightness(1);
+    }
+    25% {
+        transform: scale(1.3);
+        opacity: 0.3;
+        filter: brightness(2);
+    }
+    50% {
+        transform: scale(0.8);
+        opacity: 0.8;
+        filter: brightness(1.5);
+    }
+    75% {
+        transform: scale(1.1);
+        opacity: 0.5;
+        filter: brightness(1.8);
+    }
+    100% {
+        transform: scale(1);
+        opacity: 1;
+        filter: brightness(1);
+    }
+}
+
+/* 反向切换动画关键帧 */
+@keyframes rotateFlyOut {
+    0% {
+        transform: scale(1) rotate(0deg);
+        opacity: 1;
+    }
+    50% {
+        transform: scale(0.8) rotate(-180deg);
+        opacity: 0.6;
+    }
+    100% {
+        transform: scale(1) rotate(-360deg);
+        opacity: 1;
+    }
+}
+
+@keyframes scaleDown {
+    0% {
+        transform: scale(1);
+        opacity: 1;
+    }
+    50% {
+        transform: scale(0.6);
+        opacity: 0.5;
+    }
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+@keyframes slideFromBottom {
+    0% {
+        transform: translateY(50px) scale(0.8);
+        opacity: 0;
+    }
+    50% {
+        transform: translateY(-10px) scale(1.1);
+        opacity: 0.8;
+    }
+    100% {
+        transform: translateY(0) scale(1);
+        opacity: 1;
+    }
+}
